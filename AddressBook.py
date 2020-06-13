@@ -1,12 +1,11 @@
 import re
-#строчные переменные{
-logo='''\n\n
-	┌┐      ┌┐
-	├┤      ├<
-	││ddress││ook
-	┘└──────└┘──---\n\n
-'''
-h='(для помощи, введите \"help\").\n'
+#основные переменные{
+v="0.1.1"
+logo=\
+'''		  ┌┐      ┌┐
+		  ├┤      ├<
+		  ││ddress││ook
+		  ┘└──────└┘──---'''
 help='''
 help		выводит это сообщение
 exit		выход
@@ -16,24 +15,23 @@ find <имя>	поиск контакта
 del  <имя>	удалить контакт
 info		о программе
 '''
-e='Недоступная команда '
+e=' Недоступная команда.\n'
+h='(для помощи, введите \"help\").\n'
 #} функции{
 def E(x):
 	print(e+x*h)
 
 
 #} сама программа{
-print(logo)
+print('\n\n'+logo+'\n\n')
 while True:
 	try:
-		velue=input()
+		velue=input('> ')
 		o=re.findall(r'\w+', velue)[0]
 		if o=='exit':
 			break
 		elif o=='help':
 			print(help)
-		elif o=='type':
-			E(0)
 		elif o=='type':
 			E(0)
 		elif o=='list':
@@ -43,9 +41,9 @@ while True:
 		elif o=='del':
 			E(0)
 		elif o=='info':
-			E(0)
+			print('{}\nAddressBook\nV {}\n(с) 2020 Terlyk Maksim'.format(logo, v))
 		else:
-			x/=0
+			E(1)
 	except:
 		E(1)
 #}.
