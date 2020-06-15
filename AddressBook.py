@@ -1,7 +1,7 @@
 import os
 import pickle
 #
-v="1.0.0"
+v="1.1.0"
 path='ab.data'
 if os.access(path, os.F_OK) and os.path.getsize(path) > 0:
 	file=open(path, 'rb')
@@ -24,13 +24,22 @@ del  <имя>	удалить контакт
 save		сохранить изменения
 info		о программе
 '''
+E='Неверная команда.\n(для помощи, введите \"help\").\n'
 #
-def E():
-	print('Неверная команда.\n(для помощи, введите \"help\").\n')
 def save():
 	file=open(path, 'wb')
 	pickle.dump(ls, file)
 	file.close()
+def line(n, a):
+	print('	{}: {}'.format(n, a))
+def find(n, action):
+	if n in ls:
+		return action
+	else:
+		print('Контакт "{}" не найден.'.format(n))
+def delt(n):
+	print('Контак удалён.')
+	del ls[n]
 #
 print('\n\n'+logo+'\n\n')
 while True:
@@ -52,28 +61,22 @@ while True:
 		elif w1=='list':
 			if len(ls)>0:
 				for n, a in ls.items():
-					print('	{}: {}'.format(n, a))
+					line(n, a)
 			else:
-				print('Книга пока пуста')
+				print('Книга пуста')
 		elif w1=='info':
 			print('{}\nAddressBook\nV {}\n(с) 2020 Terlyk Maksim.'.format(logo, v))
-		elif w1=='find':
+		elif w1=='find':									####
 			w2=command[5:]
-			if w2 in ls:
-				print('	{}: {}'.format(w2, ls[w2]))
-			else:
-				print('Контакт "{}" не найден.'.format(w2))
+			find(w2, (line(w2, ls[w2])))
 		elif w1=='del ':
 			w2=command[4:]
-			if w2 in ls:
-				del ls[w2]
-			else:
-				print('Контакт "{}" не найден.'.format(w2))
+			find(w2, delt(w2))	###
 		elif w1=='save':
 			save()
 			print('Сохранение прошло успешно.')
 		else:
-			E()
+			print(E)
 	except:
-		E()
+		print(E)
 
