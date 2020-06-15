@@ -1,7 +1,7 @@
 import os
 import pickle
 #
-v="1.1.0"
+v="1.1.1"
 path='ab.data'
 if os.access(path, os.F_OK) and os.path.getsize(path) > 0:
 	file=open(path, 'rb')
@@ -63,15 +63,15 @@ while True:
 				for n, a in ls.items():
 					line(n, a)
 			else:
-				print('Книга пуста')
+				print('Книга пуста.')
 		elif w1=='info':
 			print('{}\nAddressBook\nV {}\n(с) 2020 Terlyk Maksim.'.format(logo, v))
-		elif w1=='find':									####
+		elif w1=='find':		
 			w2=command[5:]
 			find(w2, (line(w2, ls[w2])))
 		elif w1=='del ':
 			w2=command[4:]
-			find(w2, delt(w2))	###
+			find(w2, delt(w2))
 		elif w1=='save':
 			save()
 			print('Сохранение прошло успешно.')
