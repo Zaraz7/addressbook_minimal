@@ -1,13 +1,19 @@
 import os
 import pickle
 #
-v="1.1.1"
+save_chek=False
+#
+v="1.2.0"
 path='ab.data'
-if os.access(path, os.F_OK) and os.path.getsize(path) > 0:
+def load():
 	file=open(path, 'rb')
-	ls=pickle.load(file)
+	pickl=pickle.load(file)
 	file.close()
+	return pickl
+if os.access(path, os.F_OK) and os.path.getsize(path) > 0:
+	ls=load()
 else:
+	save_chek=True
 	ls={}
 logo=\
 '''		  ┌┐      ┌┐
@@ -22,9 +28,11 @@ type		создание/редактирование контакта
 find <имя>	поиск контакта
 del  <имя>	удалить контакт
 save		сохранить изменения
+debug		включить ркжим откладки
 info		о программе
 '''
-E='Неверная команда.\n(для помощи, введите \"help\").\n'
+E='Неверная команда.\n'
+H='Для помощи, введите \"help\".\n'
 #
 def save():
 	file=open(path, 'wb')
@@ -34,24 +42,27 @@ def line(n, a):
 	print('	{}: {}'.format(n, a))
 def find(n, action):
 	if n in ls:
-		return action
+		action
 	else:
 		print('Контакт "{}" не найден.'.format(n))
-def delt(n):
-	print('Контак удалён.')
+def delit(n):
 	del ls[n]
+	print('Контак удалён.')
 #
-print('\n\n'+logo+'\n\n')
+print('\n\n'+logo+'\n\n'+H)
 while True:
 	try:
 		command=input('> ')
 		w1=command[:4]
 		if w1=='exit':
-			opt=input(' При выходе все несохранённые изменения будут утеряны.\n Продолжить?\n yes/no: ')
-			if opt=='yes':
+			if save_chek or (ls!=load()):
+				opt=input(' При выходе все несохранённые изменения будут утеряны.\n Продолжить?\n y/n ')
+				if opt=='y':
+					break
+				else:
+					del opt
+			else:	
 				break
-			else:
-				del opt
 		elif w1=='help':
 			print(help)
 		elif w1=='type':
@@ -71,12 +82,13 @@ while True:
 			find(w2, (line(w2, ls[w2])))
 		elif w1=='del ':
 			w2=command[4:]
-			find(w2, delt(w2))
+			delit(w2)			
 		elif w1=='save':
 			save()
 			print('Сохранение прошло успешно.')
 		else:
-			print(E)
-	except:
-		print(E)
-
+			x/=0
+	except KeyError:
+		print('Контакт "{}" не найден.'.format(w2))
+	except: 
+		print(E+H)
